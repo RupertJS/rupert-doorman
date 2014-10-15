@@ -1,0 +1,52 @@
+.Login
+    form.Login.form-horizontal(role='form')
+        h2 Login
+        fieldset.login
+            legend Login
+            .form-group
+                label.col-sm-2.control-label(for="email") email
+                .col-sm-10
+                    .input-group
+                        input.form-control(
+                            id="email"
+                            type="email"
+                            placeholder="username@example.com"
+                        )
+                        span.input-group-addon
+                            button F
+                            button G
+            .form-group
+                label.col-sm-2.control-label(for="password") password
+                .col-sm-10
+                    input.form-control(
+                        id="password"
+                        type="password"
+                        placeholder="password"
+                    )
+            .row
+                .col-md-3
+                    button.btn.btn-primary(
+                        type="button"
+                    ) Login
+                .col-md-offset-6.col-md-3.control-label
+                    a(
+                        ui-sref="login.register"
+                    ) Register
+        fieldset.register
+            .form-group
+                label.col-sm-2.control-label(for="confirm") Confirm
+                .col-sm-10
+                    input.form-control(
+                        id="confirm"
+                        type="password"
+                        placeholder="password"
+                    )
+            password-strength
+            .form-group
+                label.col-sm-2.control-label(for="name") Name
+                .col-sm-10
+                    input.form-control(
+                        id="name"
+                        type="text"
+                        placeholder="Full Name"
+                    )

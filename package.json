@@ -1,0 +1,33 @@
+{
+  "name": "rupert-doorman",
+  "version": "0.0.0",
+  "description": "Rupert's authentication and authorization services.",
+  "main": "app.js",
+  "dependencies": {
+    "jquery": "^2.1.1",
+    "rupert": "^0.1.4"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "rupert-grunt": "^0.0.3"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DavidSouther/rupert-doorman.git"
+  },
+  "keywords": [
+    "rupert",
+    "mean",
+    "authentication",
+    "angular"
+  ],
+  "author": "David Souther <davidsouther@gmail.com> (https://davidsouther.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidSouther/rupert-doorman/issues"
+  },
+  "homepage": "https://github.com/DavidSouther/rupert-doorman"
+}
