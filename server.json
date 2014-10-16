@@ -2,15 +2,7 @@
   "name": "rupert-doorman",
   "stassets": {
     "verbose": true,
-    "root": "./src/client",
-    "framework": ["bootstrap"],
-    "vendors": {
-      "prefix": [
-      ],
-      "js": [
-      ],
-      "css": []
-    }
+    "root": "./src/client"
   },
   "tls": false,
   "routing": [

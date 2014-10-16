@@ -4,8 +4,8 @@
   "description": "Rupert's authentication and authorization services.",
   "main": "app.js",
   "dependencies": {
-    "jquery": "^2.1.1",
-    "rupert": "^0.1.4"
+    "rupert": "^0.2.0",
+    "rupert-config-angular-bootstrap": "^0.1.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
