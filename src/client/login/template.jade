@@ -1,7 +1,7 @@
 .Login
     form.Login.form-horizontal(role='form')
-        h2 Login
-        fieldset.login
+        //CSRF
+        fieldset.login.form-wrap
             legend Login
             .form-group
                 label.col-sm-2.control-label(for="email") email
@@ -32,7 +32,7 @@
                     a(
                         ui-sref="login.register"
                     ) Register
-        fieldset.register
+        fieldset.register.form-wrap
             .form-group
                 label.col-sm-2.control-label(for="confirm") Confirm
                 .col-sm-10
