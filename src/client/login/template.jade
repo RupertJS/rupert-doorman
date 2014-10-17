@@ -1,8 +1,8 @@
-.Login
-    form.Login.form-horizontal(role='form')
+.Login(ng-init="isNewRegistration = false")
+    form.Login.form-horizontal.form-wrap(role='form')
         //CSRF
-        fieldset.login.form-wrap
-            legend Login
+        .login
+            h3 Login
             .form-group
                 label.col-sm-2.control-label(for="email") email
                 .col-sm-10
@@ -11,6 +11,7 @@
                             id="email"
                             type="email"
                             placeholder="username@example.com"
+                            ng-model="auth.user.username"
                         )
                         span.input-group-addon
                             button F
@@ -22,17 +23,23 @@
                         id="password"
                         type="password"
                         placeholder="password"
+                            ng-model="auth.user.password"
                     )
             .row
                 .col-md-3
                     button.btn.btn-primary(
                         type="button"
-                    ) Login
+                    ) {{ isNewRegistration ? 'Register' : 'Login' }}
                 .col-md-offset-6.col-md-3.control-label
                     a(
-                        ui-sref="login.register"
-                    ) Register
-        fieldset.register.form-wrap
+                        ui-sref="login"
+                        ng-click="isNewRegistration = !isNewRegistration"
+                    ) {{ isNewRegistration ? 'Login' : 'Register' }}
+        .register(
+            ng-show="isNewRegistration"
+        )
+            hr
+            h4 Register
             .form-group
                 label.col-sm-2.control-label(for="confirm") Confirm
                 .col-sm-10
@@ -40,6 +47,7 @@
                         id="confirm"
                         type="password"
                         placeholder="password"
+                        ng-model="confirmPassword"
                     )
             password-strength
             .form-group
@@ -49,4 +57,5 @@
                         id="name"
                         type="text"
                         placeholder="Full Name"
+                        ng-model="auth.user.password"
                     )

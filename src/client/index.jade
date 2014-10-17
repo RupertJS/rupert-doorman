@@ -18,6 +18,10 @@ html(lang='en', ng-app='rupert-doorman')
     script(src="socket.io/socket.io.js")
 
   body
+    nav.navbar.navbar-default(role="navigation")
+        .container-fluid
+            .navbar-header
+                a.navbar-brand(ui-sref="login") Rupert Doorman Demo
     .container
         ui-view.slide-left-right(name="main")
 

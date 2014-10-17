@@ -26,22 +26,25 @@ directive = angular.module('rupert-doorman.login.directive', [
 #     $rootScope.$on '$locationChangeSuccess', loginRedirect
 #     loginRedirect()
 
+loginHandler = ($scope, $timeout, DoormanSvc)->
+    $scope.isAndroid = ionic?.Platform.isAndroid()
+    $scope.failed = false
+    _promise = null
+    $scope.failure = ""
+    $scope.$on 'Server Unavailable', (err, server)->
+        $scope.failed = true
+        $scope.failure = "Server #{server} unavailable."
+        $timeout.cancel _promise if _promise? # Cancel last timeout
+        _promise = $timeout (->$scope.failed = false), 5e3 # 5 seconds
+    $scope.$on '$loginFailed', ->
+        $scope.failed = true
+        $scope.failure = 'Invalid username or password.'
+        $timeout.cancel _promise if _promise? # Cancel last timeout
+        _promise = $timeout (->$scope.failed = false), 5e3 # 5 seconds
+
 directive.directive 'rupertLogin', ->
     restrict: 'AE'
     templateUrl: 'login'
     controller: ($scope, $timeout, DoormanSvc)->
-        $scope.isAndroid = ionic?.Platform.isAndroid()
         $scope.auth = DoormanSvc
-        $scope.failed = false
-        _promise = null
-        $scope.failure = ""
-        $scope.$on 'Server Unavailable', (err, server)->
-            $scope.failed = true
-            $scope.failure = "Server #{server} unavailable."
-            $timeout.cancel _promise if _promise? # Cancel last timeout
-            _promise = $timeout (->$scope.failed = false), 5e3 # 5 seconds
-        $scope.$on '$loginFailed', ->
-            $scope.failed = true
-            $scope.failure = 'Invalid username or password.'
-            $timeout.cancel _promise if _promise? # Cancel last timeout
-            _promise = $timeout (->$scope.failed = false), 5e3 # 5 seconds
+        loginHandler $scope, $timeout, DoormanSvc
