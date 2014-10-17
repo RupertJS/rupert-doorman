@@ -2,5 +2,5 @@ angular.module('rupert-doorman.login.google.directive', [
     'login.google.template'
 ])
 .directive 'googleButton', ->
-    restrict: 'E'
+    restrict: 'EA'
     templateUrl: 'login/google'

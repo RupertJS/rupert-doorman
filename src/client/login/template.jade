@@ -13,9 +13,9 @@
                             placeholder="username@example.com"
                             ng-model="auth.user.username"
                         )
-                        span.input-group-addon
-                            google-button
-                            button F
+                        span.input-group-addon.social-logins
+                            div(google-button)
+                            div(facebook-button)
             .form-group
                 label.col-sm-2.control-label(for="password") Password
                 .col-sm-10
