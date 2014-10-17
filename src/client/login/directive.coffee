@@ -1,5 +1,7 @@
 directive = angular.module('rupert-doorman.login.directive', [
+    'ngAnimate'
     'ui.router'
+    'rupert-doorman.login.google'
     'rupert-doorman.login.service'
     'login.template'
 ])

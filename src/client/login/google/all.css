@@ -1,0 +1,19 @@
+.GPlusSignIn {
+  display: inline-block;
+  background: #dd4b39;
+  color: white;
+  width: 34px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.GPlusSignIn:hover {
+  background: #e74b37;
+  cursor: hand;
+}
+.GPlusSignIn > span.icon {
+  background: url('//developers.google.com/+/images/branding/btn_red_32.png') transparent 0px 50% no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+}

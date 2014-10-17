@@ -4,22 +4,22 @@
         .login
             h3 Login
             .form-group
-                label.col-sm-2.control-label(for="email") email
+                label.col-sm-2.control-label(for="email") E-Mail
                 .col-sm-10
                     .input-group
-                        input.form-control(
+                        input.form-control.input-lg(
                             id="email"
                             type="email"
                             placeholder="username@example.com"
                             ng-model="auth.user.username"
                         )
                         span.input-group-addon
+                            google-button
                             button F
-                            button G
             .form-group
-                label.col-sm-2.control-label(for="password") password
+                label.col-sm-2.control-label(for="password") Password
                 .col-sm-10
-                    input.form-control(
+                    input.form-control.input-lg(
                         id="password"
                         type="password"
                         placeholder="password"
@@ -43,7 +43,7 @@
             .form-group
                 label.col-sm-2.control-label(for="confirm") Confirm
                 .col-sm-10
-                    input.form-control(
+                    input.form-control.input-lg(
                         id="confirm"
                         type="password"
                         placeholder="password"
@@ -53,7 +53,7 @@
             .form-group
                 label.col-sm-2.control-label(for="name") Name
                 .col-sm-10
-                    input.form-control(
+                    input.form-control.input-lg(
                         id="name"
                         type="text"
                         placeholder="Full Name"
