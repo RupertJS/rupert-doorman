@@ -4,4 +4,5 @@ module.exports = (grunt)->
     })
 
     grunt.registerTask 'watcher', [ 'rupert-watch' ]
-    grunt.registerTask 'default', [ 'rupert-default' ]
+    # grunt.registerTask 'default', [ 'rupert-default' ]
+    grunt.registerTask 'default', [ 'jshint', 'coffeelint', 'mochaTest:server' ]
