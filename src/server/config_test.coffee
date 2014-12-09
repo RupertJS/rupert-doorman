@@ -7,8 +7,8 @@ describe 'Doorman', ->
     it 'configures the Rupert config with its route', ->
         config = {}
         doorman(config)
-        config.routes.length.should.equal 1
-        config.routes[0].should.match /rupert-doorman.src.server.route\.coffee/
+        config.routing.length.should.equal 1
+        config.routing[0].should.match /src.server.route\.coffee/
 
     it 'sets good session defaults', ->
         config = {}
@@ -21,3 +21,22 @@ describe 'Doorman', ->
         doorman(config)
         config.doorman.session.secret.should.equal "I'mma GREYLIEN!"
         config.doorman.session.cookie.secure.should.equal false
+
+    it 'configures oath providers', ->
+        config =
+            hostname: 'example.com'
+            doorman:
+                providers:
+                    oauth2:
+                        authorizationURL:
+                            'https://www.provider.com/oauth2/authorize'
+                        tokenURL: 'https://www.provider.com/oauth2/token'
+                        clientID: '123-456-789'
+                        clientSecret: 'shhh-its-a-secret'
+
+        doorman(config)
+
+        config.doorman.providers.oauth2.should.have.property('callbackURL')
+        config.doorman.providers.oauth2.callbackURL.should.equal(
+            '/doorman/oauth2/callback'
+        )
