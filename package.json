@@ -3,16 +3,21 @@
   "version": "0.0.0",
   "description": "Rupert's authentication and authorization services.",
   "main": "app.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "test": "./node_modules/.bin/grunt",
+    "features": "./node_modules/.bin/grunt features",
+    "rename": "echo 'Coming Soon!'"
+  },
   "dependencies": {
-    "rupert": "^0.2.0",
-    "rupert-config-angular-bootstrap": "^0.1.0"
+    "rupert": "^0.2.5",
+    "rupert-config-angular": "^0.0.3",
+    "rupert-config-bootstrap": "^0.0.2"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "rupert-grunt": "^0.0.3"
-  },
-  "scripts": {
-    "test": "grunt"
+    "grunt-cli": "^0.1.13",
+    "rupert-grunt": "^0.0.14"
   },
   "repository": {
     "type": "git",

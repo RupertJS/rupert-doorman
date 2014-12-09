@@ -1,2 +1,10 @@
 global.root = __dirname;
-require('rupert')(require('./server.json')).start();
+
+var config = require('./server.json');
+config.name = require('./package.json').name;
+
+module.exports = require('rupert')(config); // Export for use by tools
+
+if (require.main === module) {
+    module.exports.start(function(){});
+}
