@@ -1,4 +1,4 @@
-angular.module('rupert-doorman.login.google.directive', [
+angular.module('rupert.doorman.login.google.directive', [
     'login.google.template'
 ])
 .directive 'googleButton', ->

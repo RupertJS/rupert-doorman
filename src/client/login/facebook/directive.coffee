@@ -1,4 +1,4 @@
-angular.module('rupert-doorman.login.facebook.directive', [
+angular.module('rupert.doorman.login.facebook.directive', [
     'login.facebook.template'
 ]).directive 'facebookButton', ->
     restrict: 'EA'

@@ -1,13 +1,13 @@
-directive = angular.module('rupert-doorman.login.directive', [
+directive = angular.module('rupert.doorman.login.directive', [
     'ngAnimate'
     'ui.router'
-    'rupert-doorman.login.google'
-    'rupert-doorman.login.facebook'
-    'rupert-doorman.login.service'
+    'rupert.doorman.login.google'
+    'rupert.doorman.login.facebook'
+    'rupert.doorman.login.service'
     'login.template'
 ])
 .config ($stateProvider)->
-    console.log 'rupert-doorman.login.directive::config'
+    console.log 'rupert.doorman.login.directive::config'
     $stateProvider.state
         name: 'login'
         url: '/login'
@@ -22,7 +22,7 @@ directive = angular.module('rupert-doorman.login.directive', [
                 """
 
 # .run ($rootScope, $state, DoormanSvc)->
-#     console.log 'rupert-doorman.login.directive::run'
+#     console.log 'rupert.doorman.login.directive::run'
 #     loginRedirect = ->
 #         unless DoormanSvc.isLoggedIn() or $state.is('login')
 #             $state.go('login')

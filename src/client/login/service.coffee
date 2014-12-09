@@ -39,6 +39,6 @@ Authentication.$inject = [
     '$rootScope'
 ]
 
-angular.module('rupert-doorman.login.service', [
+angular.module('rupert.doorman.login.service', [
     'ngCookies'
 ]).service 'DoormanSvc', Authentication
