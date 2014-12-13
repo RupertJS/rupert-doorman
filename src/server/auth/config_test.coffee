@@ -1,4 +1,4 @@
-doorman = require('./doorman.js')
+doorman = require('./config')
 
 describe 'Doorman', ->
     it 'exports a function to configure', ->
@@ -8,7 +8,7 @@ describe 'Doorman', ->
         config = {}
         doorman(config)
         config.routing.length.should.equal 1
-        config.routing[0].should.match /src.server.route\.coffee/
+        config.routing[0].should.match /src.server.auth.route\.coffee/
 
     it 'sets good session defaults', ->
         config = {}

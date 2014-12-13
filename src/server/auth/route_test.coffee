@@ -1,7 +1,7 @@
 request = require('supertest')
 express = require('express')
 router = require('./route')
-doorman = require('./doorman')
+doorman = require('./config')
 
 describe 'Doorman Router', ->
     it 'exports a routing function', ->

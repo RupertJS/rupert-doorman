@@ -1,14 +1,58 @@
-check = (req, res, next)->
-    if req.cookies.li?.maxAge <= 0
-        username = req.cookies.username
-        req.logout()
+session = require('express-session')
+logger = require('rupert/src/logger')
+passport = require('passport')
+user = require('./storage')
 
-        # ['li', 'username', 'roles'].forEach (_)->
-        res.clearCookie 'li', {path: '/'}
+authed = (req, res, next)->
+    # Nothing has failed? Nothing has redirected?
+    res.sendStatus 204
 
-    res.status(204).send()
+attach = (name, config, app)->
+    oauth2 = false
+    if name is 'oauth2'
+        oauth2 = true
+        name = 'oauth'
 
-route = (app)->
-    app.get '/auth/check', check
+    providerLib = config.libPath or "passport-#{name}"
+    lib = require(providerLib)
 
-module.exports = route
+    Strategy =
+        if name is 'oauth'
+            if oauth2
+                lib.OAuth2Strategy
+            else
+                lib.OAuthStrategy
+        else
+            lib.Strategy
+
+    strategy = new Strategy config, user.wrapStore user.Store
+    passport.use name, strategy
+
+    # Magic happens in how the Strategy uses these endpoints.
+    [
+        'connect'
+        'callback'
+    ].concat(config.endpoints or []).forEach (_)->
+        app.get "/doorman/#{name}/#{_}", passport.authenticate(name), authed
+
+DoormanRouter = (app, config)->
+    app.use(session(config.doorman.session))
+    app.use(passport.initialize())
+    app.use(passport.session())
+
+    users = {}
+    passport.serializeUser (user, done)->
+        users[user.id] = user
+        done(null, user.id)
+    passport.deserializeUser (id, done)->
+        user = users[id]
+        done(null, user)
+
+    for provider, providerConfig of config.doorman.providers
+        try
+            attach provider, providerConfig, app
+        catch e
+            logger.log.warn 'Failed to connect authentication provider.'
+            logger.log.info e
+
+module.exports = DoormanRouter
