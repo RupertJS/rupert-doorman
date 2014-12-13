@@ -21,6 +21,7 @@
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "passport-oauth": "^1.0.0",
+    "passport-strategy": "^1.0.0",
     "rupert-grunt": "^0.0.17",
     "supertest": "^0.15.0"
   },

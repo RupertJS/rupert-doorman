@@ -1,47 +1,58 @@
 session = require('express-session')
-log = require('rupert/src/logger').log
+logger = require('rupert/src/logger')
 passport = require('passport')
 user = require('./storage')
 
+authed = (req, res, next)->
+    # Nothing has failed? Nothing has redirected?
+    res.sendStatus 204
+
+attach = (name, config, app)->
+    oauth2 = false
+    if name is 'oauth2'
+        oauth2 = true
+        name = 'oauth'
+
+    providerLib = config.libPath or "passport-#{name}"
+    lib = require(providerLib)
+
+    Strategy =
+        if name is 'oauth'
+            if oauth2
+                lib.OAuth2Strategy
+            else
+                lib.OAuthStrategy
+        else
+            lib.Strategy
+
+    strategy = new Strategy config, user.wrapStore user.Store
+    passport.use name, strategy
+
+    # Magic happens in how the Strategy uses these endpoints.
+    [
+        'connect'
+        'callback'
+    ].concat(config.endpoints or []).forEach (_)->
+        app.get "/doorman/#{name}/#{_}", passport.authenticate(name), authed
+
 DoormanRouter = (app, config)->
     app.use(session(config.doorman.session))
+    app.use(passport.initialize())
+    app.use(passport.session())
+
+    users = {}
+    passport.serializeUser (user, done)->
+        users[user.id] = user
+        done(null, user.id)
+    passport.deserializeUser (id, done)->
+        user = users[id]
+        done(null, user)
 
     for provider, providerConfig of config.doorman.providers
         try
-            oauth2 = false
-            if provider is 'oauth2'
-                oauth2 = true
-                provider = 'oauth'
-            lib = require('passport-' + provider)
-
-            Strategy =
-                if provider is 'oauth'
-                    if oauth2
-                        lib.OAuth2Strategy
-                    else
-                        lib.OAuthStrategy
-                else
-                    lib.Strategy
-
-            strategy = new Strategy providerConfig, user.Store
-            passport.use provider, strategy
-
-            app.get(
-                "/doorman/#{provider}/connect"
-                passport.authenticate provider
-            )
-
-            app.get(
-                "/doorman/#{provider}/callback"
-                passport.authenticate('provider',
-                    successRedirect: '/'
-                    failureRedirect: '/login'
-                )
-            )
+            attach provider, providerConfig, app
         catch e
-            console.log e
-            log.warn 'Failed to connect authentication provider.'
-            log.info e
-
+            logger.log.warn 'Failed to connect authentication provider.'
+            logger.log.info e
 
 module.exports = DoormanRouter

@@ -22,7 +22,7 @@ describe 'Doorman', ->
         config.doorman.session.secret.should.equal "I'mma GREYLIEN!"
         config.doorman.session.cookie.secure.should.equal false
 
-    it 'configures oath providers', ->
+    it 'configures oauth providers', ->
         config =
             hostname: 'example.com'
             doorman:

@@ -38,3 +38,30 @@ describe 'Doorman Router', ->
                 .get('/doorman/oauth/connect')
                 .expect(302)
                 .end done
+
+    it 'completes a login', (done)->
+        config =
+            name: 'doorman-test'
+            stassets: no
+            websockets: no
+            static: no
+            doorman:
+                providers:
+                    test:
+                        libPath: './test_strategy'
+
+        doorman(config)
+        require('rupert')(config).then ({app})->
+            connect = request(app)
+                .get('/doorman/test/connect')
+                .expect(302)
+
+            callback = request(app)
+                .get('/doorman/test/callback')
+                .query({code: 'loggedin'})
+                .expect(204)
+
+            connect.end (err)->
+                done(err) if err
+                callback.end (err, res)->
+                    done(err)
