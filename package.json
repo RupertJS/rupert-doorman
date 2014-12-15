@@ -10,6 +10,7 @@
     "rename": "echo 'Coming Soon!'"
   },
   "dependencies": {
+    "coffee-script": "^1.8.0",
     "express-session": "^1.9.3",
     "passport": "^0.2.1",
     "rupert": "^0.2.6",
