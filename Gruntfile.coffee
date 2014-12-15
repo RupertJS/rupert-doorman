@@ -1,3 +1,4 @@
+process.env.LOG_LEVEL or= 'warn'
 module.exports = (grunt)->
     require('rupert-grunt')(grunt, {
         server: __dirname + '/app.js'
