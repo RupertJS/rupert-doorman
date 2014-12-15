@@ -34,7 +34,8 @@ module.exports =
                         access: args[0]
                         secret: args[1]
 
-            profile[provider] = { tokens }
+            profile.tokens or= {}
+            profile.tokens[provider] = tokens
 
             try
                 val = Store.apply @, [provider, profile]

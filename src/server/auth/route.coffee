@@ -55,4 +55,12 @@ DoormanRouter = (app, config)->
             logger.log.warn 'Failed to connect authentication provider.'
             logger.log.info e
 
+    app.get '/doorman', (req, res, next)->
+        if req.user
+            user = JSON.parse JSON.stringify req.user
+            delete user.tokens
+            res.send user
+        else
+            res.sendStatus 401
+
 module.exports = DoormanRouter
