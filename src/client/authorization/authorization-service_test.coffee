@@ -11,20 +11,44 @@ describe 'Doorman Authorization', ->
         it 'rejects on 401', inject (IsLoggedIn, $httpBackend)->
             $httpBackend.whenGET('/doorman').respond 401
             $httpBackend.expectGET '/doorman'
+
             isLoggedIn = IsLoggedIn()
             isLoggedIn.should.have.property 'then'
+
             err = null
             isLoggedIn.catch (e)-> err = e
             $httpBackend.flush()
+
             should.exist err
 
         it 'resolves on 200', inject (IsLoggedIn, $httpBackend)->
             $httpBackend.whenGET('/doorman').respond 200, {id: '123abc'}
             $httpBackend.expectGET '/doorman'
+
             isLoggedIn = IsLoggedIn()
             user = null
             isLoggedIn.then (u)-> user = u
             $httpBackend.flush()
+
+            should.exist user
+            user.should.have.property 'id'
+            user.id.should.equal '123abc'
+
+        it 'spares the request',  inject ($injector)->
+            IsLoggedIn = $injector.get('IsLoggedIn')
+            $httpBackend = $injector.get('$httpBackend')
+            $rootScope = $injector.get('$rootScope')
+
+            $httpBackend.whenGET('/doorman').respond 200, {id: '123abc'}
+            $httpBackend.expectGET '/doorman'
+            isLoggedIn = IsLoggedIn()
+            $httpBackend.flush()
+
+            isLoggedIn = IsLoggedIn()
+            user = null
+            isLoggedIn.then (u)-> user = u
+            $rootScope.$apply()
+
             should.exist user
             user.should.have.property 'id'
             user.id.should.equal '123abc'
