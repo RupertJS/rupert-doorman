@@ -1,6 +1,6 @@
 {
   "name": "rupert-doorman",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Rupert's authentication and authorization services.",
   "main": "app.js",
   "scripts": {
