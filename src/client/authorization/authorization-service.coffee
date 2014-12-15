@@ -11,7 +11,7 @@ class Authorization
 
     IsLoggedIn: ->
         return @$q.when(@user) if @user?
-        @$http.get('/doorman').success (data)->
+        @$http.get('/doorman').then ({data})=>
             @user = data
 
 Authorization.$inject = [
