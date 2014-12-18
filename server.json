@@ -9,9 +9,15 @@
       "css": []
     }
   },
-  "tls": false,
-  "routing": [
-    "./src/server/allow.coffee",
-    "./src/server/**/route.coffee"
-  ]
+  "tls": true,
+  "routing": [],
+  "doorman": {
+    "providers": {
+      "google": {
+        "clientID": "274817497849-8lf09uede56jstaqvueg24dk99bfblc6.apps.googleusercontent.com",
+        "clientSecret": "YbhDMcRVAUAyD0-dRpAmwAPU",
+        "scope": "profile"
+      }
+    }
+  }
 }

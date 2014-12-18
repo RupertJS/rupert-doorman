@@ -7,21 +7,35 @@ authed = (req, res, next)->
     # Nothing has failed? Nothing has redirected?
     res.sendStatus 204
 
-attach = (name, config, app)->
+name = 'Rupert Doorman App'
+close = (req, res, next)->
+    res.send """<html>
+        <head><title>#{name}</title></head>
+        <body><script>window.close();</script></body>
+        </html>"""
+
+attach = (name, config, app, base)->
+
     oauth2 = false
     if name is 'oauth2'
         oauth2 = true
-        name = 'oauth'
+        config.libPath = 'passport-oauth'
+    if config.returnURL or config.realm
+        # Assume OAuth
+        oauth2 = false
+    if name is 'google' # Old passport-google library is deprecated
+        config.libPath = 'passport-google-oauth'
+    if config.clientID and config.clientSecret
+        oauth2 = true
 
     providerLib = config.libPath or "passport-#{name}"
     lib = require(providerLib)
 
     Strategy =
-        if name is 'oauth'
-            if oauth2
-                lib.OAuth2Strategy
-            else
-                lib.OAuthStrategy
+        if oauth2 and lib.OAuth2Strategy
+            lib.OAuth2Strategy
+        else if lib.OAuthStrategy
+            lib.OAuthStrategy
         else
             lib.Strategy
 
@@ -29,13 +43,12 @@ attach = (name, config, app)->
     passport.use name, strategy
 
     # Magic happens in how the Strategy uses these endpoints.
-    [
-        'connect'
-        'callback'
-    ].concat(config.endpoints or []).forEach (_)->
-        app.get "/doorman/#{name}/#{_}", passport.authenticate(name), authed
+
+    app.get "/#{base}/#{name}/connect", passport.authenticate(name)
+    app.get "/#{base}/#{name}/callback", passport.authenticate(name), close
 
 DoormanRouter = (app, config)->
+    config.doorman.base or= 'doorman'
     app.use(session(config.doorman.session))
     app.use(passport.initialize())
     app.use(passport.session())
@@ -50,12 +63,12 @@ DoormanRouter = (app, config)->
 
     for provider, providerConfig of config.doorman.providers
         try
-            attach provider, providerConfig, app
+            attach provider, providerConfig, app, config.doorman.base
         catch e
             logger.log.warn 'Failed to connect authentication provider.'
-            logger.log.info e
+            logger.log.info e.stack
 
-    app.get '/doorman', (req, res, next)->
+    app.get "/#{config.doorman.base}", (req, res, next)->
         if req.user
             user = JSON.parse JSON.stringify req.user
             delete user.tokens

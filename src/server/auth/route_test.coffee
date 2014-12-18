@@ -35,7 +35,7 @@ describe 'Doorman Router', ->
         doorman(config)
         require('rupert')(config).then ({app})->
             request(app)
-                .get('/doorman/oauth/connect')
+                .get('/doorman/oauth2/connect')
                 .expect(302)
                 .end done
 
@@ -59,7 +59,8 @@ describe 'Doorman Router', ->
             callback = request(app)
                 .get('/doorman/test/callback')
                 .query({code: 'loggedin'})
-                .expect(204)
+                .expect(200)
+                .expect(/window.close()/)
 
             connect.end (err)->
                 return done(err) if err
@@ -88,7 +89,7 @@ describe 'Doorman Router', ->
                 agent
                 .get('/doorman/test/callback')
                 .query({code: 'loggedin'})
-                .expect(204)
+                .expect(200) # And a window.close()
                 .end (err, res)->
                     return done(err) if err
                     agent
