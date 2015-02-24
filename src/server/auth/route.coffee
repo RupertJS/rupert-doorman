@@ -67,8 +67,8 @@ DoormanRouter = (app, config)->
         done(null, user)
 
     config.map 'doorman.providers', (name, provider)->
-      provider.callbackURL = "/#{base}/#{name}/callback"
-      provider
+        provider.callbackURL = "/#{base}/#{name}/callback"
+        provider
     for provider, providerConfig of config.find 'doorman.providers'
         try
             attach provider, providerConfig, app, base
