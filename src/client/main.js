@@ -2,8 +2,7 @@ angular.module('rupert.doorman', [
     'ngAnimate',
     'rupert.doorman.login',
     'rupert.doorman.authorization',
-]).config(function($authorizationProvider){
-}).controller('OAuthLoginController', function OAuthLoginController($authorization){
+]).controller('OAuthLoginController', function OAuthLoginController($authorization){
     this.loginWith = function(provider){
         $authorization.connect(provider);
     };
