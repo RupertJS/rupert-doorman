@@ -2,7 +2,7 @@
   "name": "rupert-doorman",
   "version": "0.0.1",
   "description": "Rupert's authentication and authorization services.",
-  "main": "app.js",
+  "main": "src/server/doorman.js",
   "scripts": {
     "start": "node ./app.js",
     "test": "./node_modules/.bin/grunt",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "coffee-script": "^1.8.0",
+    "debug": "^2.1.1",
     "express-session": "^1.9.3",
     "passport": "^0.2.1",
     "rupert": "^0.2.6",

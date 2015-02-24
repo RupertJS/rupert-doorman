@@ -3,7 +3,6 @@ angular.module('rupert.doorman', [
     'rupert.doorman.login',
     'rupert.doorman.authorization',
 ]).config(function($authorizationProvider){
-    $authorizationProvider.setBaseURL('api/auth');
 }).controller('OAuthLoginController', function OAuthLoginController($authorization){
     this.loginWith = function(provider){
         $authorization.connect(provider);

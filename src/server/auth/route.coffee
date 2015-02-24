@@ -2,6 +2,7 @@ session = require('express-session')
 logger = require('rupert/src/logger')
 passport = require('passport')
 user = require('./storage')
+debug = require('debug')('rupert:doorman')
 
 authed = (req, res, next)->
     # Nothing has failed? Nothing has redirected?
@@ -15,7 +16,6 @@ close = (req, res, next)->
         </html>"""
 
 attach = (name, config, app, base)->
-
     oauth2 = false
     if name is 'oauth2'
         oauth2 = true
@@ -39,17 +39,22 @@ attach = (name, config, app, base)->
         else
             lib.Strategy
 
+    debug 'Adding strategy: ' + Strategy.name || Strategy
+
     strategy = new Strategy config, user.wrapStore user.Store
     passport.use name, strategy
 
     # Magic happens in how the Strategy uses these endpoints.
-
     app.get "/#{base}/#{name}/connect", passport.authenticate(name)
     app.get "/#{base}/#{name}/callback", passport.authenticate(name), close
 
 DoormanRouter = (app, config)->
-    config.doorman.base or= 'doorman'
-    app.use(session(config.doorman.session))
+    base = config.find 'doorman.base', 'DOORMAN_BASE', 'doorman'
+
+    sessionDeets = config.find 'doorman.session'
+    debug('Configuring session')
+    debug(sessionDeets)
+    app.use(session(sessionDeets))
     app.use(passport.initialize())
     app.use(passport.session())
 
@@ -61,14 +66,17 @@ DoormanRouter = (app, config)->
         user = users[id]
         done(null, user)
 
-    for provider, providerConfig of config.doorman.providers
+    config.map 'doorman.providers', (name, provider)->
+      provider.callbackURL = "/#{base}/#{name}/callback"
+      provider
+    for provider, providerConfig of config.find 'doorman.providers'
         try
-            attach provider, providerConfig, app, config.doorman.base
+            attach provider, providerConfig, app, base
         catch e
             logger.log.warn 'Failed to connect authentication provider.'
             logger.log.info e.stack
 
-    app.get "/#{config.doorman.base}", (req, res, next)->
+    app.get "/#{base}", (req, res, next)->
         if req.user
             user = JSON.parse JSON.stringify req.user
             delete user.tokens

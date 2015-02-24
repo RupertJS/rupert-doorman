@@ -1,4 +1,7 @@
 {
+  "static": {
+    "img": "./src/assets/img"
+  },
   "name": "rupert-doorman",
   "stassets": {
     "verbose": true,
@@ -13,11 +16,6 @@
   "routing": [],
   "doorman": {
     "providers": {
-      "google": {
-        "clientID": "274817497849-8lf09uede56jstaqvueg24dk99bfblc6.apps.googleusercontent.com",
-        "clientSecret": "YbhDMcRVAUAyD0-dRpAmwAPU",
-        "scope": "profile"
-      }
     }
   }
 }
