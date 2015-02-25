@@ -15,8 +15,8 @@
     "express-session": "^1.9.3",
     "passport": "^0.2.1",
     "rupert": "^0.3.2",
-    "rupert-config-angular": "^0.0.3",
-    "rupert-config-bootstrap": "^0.0.2"
+    "rupert-plugin-angular": "^0.1.1",
+    "rupert-plugin-bootstrap": "^0.1.1"
   },
   "devDependencies": {
     "chai": "^1.10.0",
