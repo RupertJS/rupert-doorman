@@ -2,13 +2,14 @@ request = require('supertest')
 express = require('express')
 router = require('./route')
 doorman = require('./config')
+Config = require('rupert').Config
 
 describe 'Doorman Router', ->
     it 'exports a routing function', ->
         router.should.be.an.instanceof Function
 
     it 'attaches express-session to the app', (done)->
-        config = {}
+        config = new Config {}
         doorman(config)
         app = express()
         router(app, config)
@@ -18,7 +19,7 @@ describe 'Doorman Router', ->
         request(app).get('/route').expect(200).end(done)
 
     it 'loads oath provider routes', (done)->
-        config =
+        config = new Config
             name: 'doorman-test'
             stassets: no
             websockets: no
@@ -40,7 +41,7 @@ describe 'Doorman Router', ->
                 .end done
 
     it 'completes a login', (done)->
-        config =
+        config = new Config
             name: 'doorman-test'
             stassets: no
             websockets: no
@@ -68,7 +69,7 @@ describe 'Doorman Router', ->
                     done(err)
 
     it 'returns user info on request', (done)->
-        config =
+        config = new Config
             name: 'doorman-test'
             stassets: no
             websockets: no
