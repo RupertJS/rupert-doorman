@@ -65,8 +65,9 @@ function DoormanRouter(app, config) {
     done(null, user);
   });
 
+  var url = config.find('doorman.redirectHost', 'REDIRECT_HOST', '/');
   config.map('doorman.providers', function(name, provider) {
-    provider.callbackURL = app.url + base + '/' + name + '/callback';
+    provider.callbackURL = url + base + '/' + name + '/callback';
     return provider;
   });
 
