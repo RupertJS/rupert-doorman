@@ -77,8 +77,8 @@ function DoormanRouter(app, config) {
       attach(provider, providerConfig, app, base);
     } catch (_error) {
       var e = _error;
-      logger.log.warn('Failed to connect authentication provider.');
-      logger.log.info(e.stack);
+      logger.warn('Failed to connect authentication provider.');
+      logger.info(e.stack);
     }
   }
 
