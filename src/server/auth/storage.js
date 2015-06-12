@@ -7,7 +7,7 @@ var storage = module.exports = {
     var done = Array.prototype.slice.call(arguments, -1)[0];
     switch (args.length) {
       case 1:
-        return done(new Error("Not handling openid without user."));
+        return done(new Error('Not handling openid without user.'));
       case 2:
         profile = args[1];
         if (profile.provider) {
@@ -16,7 +16,7 @@ var storage = module.exports = {
             identifier: args[0]
           };
         } else {
-          return done(new Error("Not handling apparent local."));
+          return done(new Error('Not handling apparent local.'));
         }
         break;
       case 3:
@@ -27,7 +27,7 @@ var storage = module.exports = {
           secret: args[1]
         };
     }
-    profile.tokens || (profile.tokens = {});
+    profile.tokens = profile.tokens || {};
     profile.tokens[provider] = tokens;
     try {
       val = storage.Store.call(this, provider, profile);

@@ -2,8 +2,8 @@ var doorman = require('./auth/config');
 
 doorman.storage = require('./auth/storage');
 
-var authFailed = function(req, res, next) {
-  return res.sendStatus(401);
+var authFailed = function(req, res) {
+  return res.status(401).send();
 };
 
 doorman.defaultAuthorizationFailed = function(fn) {

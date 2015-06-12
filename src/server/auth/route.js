@@ -27,7 +27,7 @@ function attach(name, config, app, base) {
     oauth2 = true;
   }
 
-  var lib = require(config.libPath || ("passport-" + name));
+  var lib = require(config.libPath || ('passport-' + name));
 
   var Strategy = (oauth2 && lib.OAuth2Strategy) ?
     lib.OAuth2Strategy :
@@ -39,9 +39,9 @@ function attach(name, config, app, base) {
   var strategy = new Strategy(config, storage.wrapStore);
   passport.use(name, strategy);
 
-  app.get("/" + base + "/" + name + "/connect", passport.authenticate(name));
-  app.get("/" + base + "/" + name + "/callback", passport.authenticate(name), storeUser, close);
-};
+  app.get('/' + base + '/' + name + '/connect', passport.authenticate(name));
+  app.get('/' + base + '/' + name + '/callback', passport.authenticate(name), storeUser, close);
+}
 
 function DoormanRouter(app, config) {
   logger = app.logger;
@@ -61,18 +61,18 @@ function DoormanRouter(app, config) {
     done(null, user.id);
   });
   passport.deserializeUser(function(id, done) {
-    user = users[id];
+    var user = users[id];
     done(null, user);
   });
 
   config.map('doorman.providers', function(name, provider) {
-    provider.callbackURL = "/" + base + "/" + name + "/callback";
+    provider.callbackURL = '/' + base + '/' + name + '/callback';
     return provider;
   });
 
-  ref = config.find('doorman.providers');
-  for (provider in ref) {
-    providerConfig = ref[provider];
+  var ref = config.find('doorman.providers');
+  for (var provider in ref) {
+    var providerConfig = ref[provider];
     try {
       attach(provider, providerConfig, app, base);
     } catch (_error) {
@@ -82,31 +82,32 @@ function DoormanRouter(app, config) {
     }
   }
 
-  app.get("/" + base, function(req, res, next) {
+  app.get('/' + base, function(req, res) {
     if (req.user) {
-      user = JSON.parse(JSON.stringify(req.user));
+      var user = JSON.parse(JSON.stringify(req.user));
       delete user.tokens;
       return res.send(user);
     } else {
-      return res.sendStatus(401);
+      return res.status(401).send();
     }
   });
-};
-
-function authed(req, res, next) {
-  return res.sendStatus(204);
-};
+}
 
 function storeUser(req, res, next){
-  debug("Sign on complete, storing user: ", req.user);
+  debug('Sign on complete, storing user: ', req.user);
   // TODO how to Invert Control...
   next();
-};
+}
 
-function close(req, res, next) {
-  debug("Completing login; returning OAuth window close script.");
-  return res.send("<html><head><title>Rupert Doorman Utility</title></head><body><script>debugger; window.opener.RupertDoormanLoggedIn(); window.close();</script></body></html>");
-};
+
+function authed(req, res) { // jshint ignore:line
+  return res.status(204).send();
+}
+
+function close(req, res) { // jshint ignore:line
+  debug('Completing login; returning OAuth window close script.');
+  return res.send('<html><head><title>Rupert Doorman Utility</title></head><body><script>debugger; window.opener.RupertDoormanLoggedIn(); window.close();</script></body></html>');
+}
 
 
 module.exports = DoormanRouter;

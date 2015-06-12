@@ -27,6 +27,6 @@ function DoormanConfig(config) {
   config.find('doorman.session.saveUninitialized', false);
   var secure = config.tls ? true : false;
   config.find('doorman.session.cookie.secure', secure);
-};
+}
 
 module.exports = DoormanConfig;

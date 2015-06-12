@@ -9,11 +9,12 @@
   "trailing": true,
   "undef": true,
   "unused": true,
-  "latedef": true,
+  "latedef": "nofunc",
   "globals": {
-    "angular": true,
     "__dirname": true,
+    "angular": true,
     "module": true,
-    "require": true
+    "require": true,
+    "process": true
   }
 }
