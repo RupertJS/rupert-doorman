@@ -23,10 +23,10 @@ class Authorization
             throw err
 
 Authorization.$inject = [
-    '$http'
-    '$q'
-    '$window'
-    '$rootScope'
+  '$http'
+  '$q'
+  '$window'
+  '$rootScope'
 ]
 
 class AuthorizationProvider
