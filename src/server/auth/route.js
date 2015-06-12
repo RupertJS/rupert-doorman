@@ -65,8 +65,9 @@ function DoormanRouter(app, config) {
     done(null, user);
   });
 
+  var url = config.HTTPS_URL || config.HTTP_URL || '';
   config.map('doorman.providers', function(name, provider) {
-    provider.callbackURL = '/' + base + '/' + name + '/callback';
+    provider.callbackURL = url + '/' + base + '/' + name + '/callback';
     return provider;
   });
 
