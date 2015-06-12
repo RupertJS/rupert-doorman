@@ -5,14 +5,18 @@ describe 'Doorman', ->
         doorman.should.have.property('isLoggedIn')
         doorman.isLoggedIn.should.be.instanceof Function
 
-        req = user: true
-        res = sendStatus: sinon.spy()
+        res = {
+            status: -> {
+                send: ->
+            }
+        }
+        status = sinon.spy(res, 'status')
         next = sinon.spy()
 
         doorman.isLoggedIn({}, res, next)
-        res.sendStatus.should.have.been.calledWith(401)
+        status.should.have.been.calledWith 401
 
-        doorman.isLoggedIn(req, res, next)
+        doorman.isLoggedIn({user: true}, res, next)
         next.should.have.been.called
 
     it 'allows overriding failure behavior', ->
