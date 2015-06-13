@@ -3,4 +3,4 @@ rupert-doorman
 
 Rupert's authentication and authorization services.
 
-You want to start with [Rupert](https://github.com/RupertJS/rupert).
+You want to start at [Rupert Auth Exampls](https://RupertJS.io/#auth).
